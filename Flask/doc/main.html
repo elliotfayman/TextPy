@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module main</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>main</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cellio%5Conedrive%5Cdesktop%5Cschool%5Ccomp380%5Ctextpy%5Cflask%5Cmain.py">c:\users\ellio\onedrive\desktop\school\comp380\textpy\flask\main.py</a></font></td></tr></table>
+    <p><tt>A&nbsp;Flask&nbsp;web&nbsp;application&nbsp;that&nbsp;compiles&nbsp;and&nbsp;executes&nbsp;Python&nbsp;code.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;app&nbsp;(Flask):&nbsp;The&nbsp;Flask&nbsp;app&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;compiler&nbsp;(Compiler):&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;Compiler&nbsp;class.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;client&nbsp;(Client):&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;Twilio&nbsp;Client&nbsp;class.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;twilio_phone_number&nbsp;(str):&nbsp;Your&nbsp;Twilio&nbsp;phone&nbsp;number&nbsp;in&nbsp;E.164&nbsp;format.<br>
+&nbsp;<br>
+Routes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;(or&nbsp;/home):&nbsp;Renders&nbsp;the&nbsp;home&nbsp;page&nbsp;template.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/test:&nbsp;Tests&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;server.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/compile:&nbsp;Compiles&nbsp;the&nbsp;code&nbsp;received&nbsp;from&nbsp;the&nbsp;POST&nbsp;request&nbsp;using&nbsp;the&nbsp;Compiler&nbsp;class&nbsp;and&nbsp;returns&nbsp;the&nbsp;output&nbsp;as&nbsp;a&nbsp;JSON&nbsp;response.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/sms:&nbsp;Receives&nbsp;an&nbsp;SMS&nbsp;message,&nbsp;compiles&nbsp;the&nbsp;code,&nbsp;and&nbsp;sends&nbsp;the&nbsp;output&nbsp;back&nbsp;to&nbsp;the&nbsp;same&nbsp;phone&nbsp;number.<br>
+&nbsp;<br>
+Example&nbsp;Usage:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Start&nbsp;the&nbsp;server&nbsp;by&nbsp;running&nbsp;this&nbsp;script:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$&nbsp;python&nbsp;main.py<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Open&nbsp;your&nbsp;web&nbsp;browser&nbsp;and&nbsp;go&nbsp;to&nbsp;<a href="http://localhost:5000">http://localhost:5000</a>&nbsp;to&nbsp;view&nbsp;the&nbsp;home&nbsp;page.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;test&nbsp;the&nbsp;server&nbsp;connection,&nbsp;send&nbsp;a&nbsp;GET&nbsp;request&nbsp;to&nbsp;<a href="http://localhost:5000/test">http://localhost:5000/test</a>.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;compile&nbsp;and&nbsp;execute&nbsp;Python&nbsp;code,&nbsp;send&nbsp;a&nbsp;POST&nbsp;request&nbsp;to&nbsp;<a href="http://localhost:5000/compile">http://localhost:5000/compile</a>&nbsp;with&nbsp;the&nbsp;code&nbsp;as&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;'code'&nbsp;parameter.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;receive&nbsp;and&nbsp;compile&nbsp;code&nbsp;from&nbsp;an&nbsp;SMS&nbsp;message,&nbsp;send&nbsp;an&nbsp;SMS&nbsp;to&nbsp;your&nbsp;Twilio&nbsp;phone&nbsp;number&nbsp;in&nbsp;E.164&nbsp;format.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-compile_code"><strong>compile_code</strong></a>()</dt><dd><tt>Compiles&nbsp;the&nbsp;code&nbsp;received&nbsp;from&nbsp;the&nbsp;POST&nbsp;request&nbsp;using&nbsp;the&nbsp;Compiler&nbsp;class&nbsp;and&nbsp;returns&nbsp;the&nbsp;output&nbsp;as&nbsp;a&nbsp;JSON&nbsp;response.</tt></dd></dl>
+ <dl><dt><a name="-homepage"><strong>homepage</strong></a>()</dt><dd><tt>Renders&nbsp;the&nbsp;home&nbsp;page&nbsp;template.</tt></dd></dl>
+ <dl><dt><a name="-sms"><strong>sms</strong></a>()</dt><dd><tt>Receives&nbsp;an&nbsp;SMS&nbsp;message,&nbsp;compiles&nbsp;the&nbsp;code,&nbsp;and&nbsp;sends&nbsp;the&nbsp;output&nbsp;back&nbsp;to&nbsp;the&nbsp;same&nbsp;phone&nbsp;number.</tt></dd></dl>
+ <dl><dt><a name="-test"><strong>test</strong></a>()</dt><dd><tt>Tests&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;server.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>app</strong> = &lt;Flask 'main'&gt;<br>
+<strong>client</strong> = &lt;Twilio TWILIO_ACCOUNT_SID&gt;<br>
+<strong>compiler</strong> = &lt;compiler.Compiler object&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>twilio_phone_number</strong> = 'TWILIO_PHONE_NUMBER'</td></tr></table>
+</body></html>
