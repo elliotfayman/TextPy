@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  twilio_flutter: ^0.0.9
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +40,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  http:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -136,15 +138,18 @@ flutter:
            #         - asset: fonts/TrajanPro_Bold.ttf
            weight: 700
 
-     - family: House Decor Demo
-       fonts:
-         - asset: assets/fonts/House Decor Demo.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+
 
      - family: West End Knights
        fonts:
          - asset: assets/fonts/West End Knights.otf
+           #         - asset: fonts/TrajanPro_Bold.ttf
+           weight: 700
+
+
+     - family: Bitter-VariableFont_wght
+       fonts:
+         - asset: assets/fonts/Bitter-VariableFont_wght.ttf
            #         - asset: fonts/TrajanPro_Bold.ttf
            weight: 700
   #
