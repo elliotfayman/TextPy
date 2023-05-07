@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 final String baseUrl = 'http://127.0.0.1:5000';
 
@@ -201,8 +202,8 @@ class _SecondPageState extends State<SecondPage> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => send_SMS(
-                      context, _messageController.text, _phoneController.text),
+                  onPressed: () => _sendSMS('print("Hello World!")', [""])
+                      ,
                   child: const Text('Send Message'),
                 ),
               ],
@@ -259,4 +260,12 @@ class ChatPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void _sendSMS(String message, List<String> recipents) async {
+  String _result = await sendSMS(message: message, recipients: recipents)
+  .catchError((onError) {
+    print(onError);
+  });
+  print(_result);
 }
