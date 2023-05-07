@@ -11,6 +11,10 @@ api = Api(app)
 def homepage():
     return render_template("/home.html")
 
+@app.route('/test')
+def test():
+    return jsonify({'code': 200, 'message': 'Server contacted. Connection successful'})
+
 @app.route('/sms', methods=['POST'])
 def sms():
     number = request.form['From']
@@ -19,10 +23,6 @@ def sms():
     resp = twiml.Response()
     resp.message('Hello {}, you said: {}'.format(number, message_body))
     return str(resp)
-
-@app.route('/test')
-def test():
-    return jsonify({'code': 200, 'message': 'Server contacted. Connection successful'})
 
 if __name__ == '__main__':
     app.run(debug=True)
