@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:twilio_flutter/twilio_flutter.dart';
+
+final String baseUrl = 'http://127.0.0.1:5000';
 
 /// The entry point of the application.
 /// It runs the [MaterialApp] widget with the [HomeScreen] as the default screen.
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      brightness: Brightness.dark,
+    ),
     title: 'TextPy',
     home: HomeScreen(),
   ));
@@ -20,8 +28,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 //Home screen
-      backgroundColor: Colors.black,
 
+      backgroundColor: Color(0xff000001),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -31,7 +39,7 @@ class HomeScreen extends StatelessWidget {
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               //Adding blue-grey color to the image
-              Colors.blueGrey,
+              Color(0xff427542),
               //Modulating the color blend mode
               BlendMode.modulate,
             ),
@@ -43,12 +51,26 @@ class HomeScreen extends StatelessWidget {
           children: [
             Align(
               //Aligning the text widget
-              alignment: Alignment(-0.6, -0.12),
+              alignment: Alignment(-0.4, -0.1),
               child: Text(
                 'Welcome to',
                 style: TextStyle(
-                  fontSize: 23,
-                  fontStyle: FontStyle.italic,
+                  fontFamily: "Italiana",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  //Settinsg the text color
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Align(
+              //Aligning the text widget
+              alignment: Alignment(0.0, 0.04),
+              child: Text(
+                'TextPy',
+                style: TextStyle(
+                  fontFamily: 'West End Knights',
+                  fontSize: 68,
                   //Setting the text color
                   color: Colors.white,
                 ),
@@ -56,14 +78,26 @@ class HomeScreen extends StatelessWidget {
             ),
             Align(
               //Aligning the text widget
-              alignment: Alignment(0.0, 0.05),
+              alignment: Alignment(0.0, 0.18),
               child: Text(
-                'T e x t P y',
+                'A new way to send messages',
                 style: TextStyle(
-                  fontFamily: 'West End Knights',
-                  fontSize: 70,
+                  fontSize: 15,
                   //Setting the text color
-                  color: Colors.white,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            Align(
+              //Aligning the text widget
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'From '
+                'Webcraft',
+                style: TextStyle(
+                  fontSize: 15,
+                  //Setting the text color
+                  color: Colors.grey,
                 ),
               ),
             ),
@@ -81,8 +115,8 @@ class HomeScreen extends StatelessWidget {
                 label: Text(
                   "Click to Start",
                   style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
                 //Setting the background color
@@ -91,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                   //Navigating to the second page
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SecondPage()),
+                    MaterialPageRoute(builder: (context) => SecondPage()),
                   );
                 }),
           ),
@@ -102,116 +136,81 @@ class HomeScreen extends StatelessWidget {
 }
 
 /// A second page widget that displays a list of users and a floating action button that navigates to the chat page.
-class SecondPage extends StatelessWidget {
-  /// Creates a second page widget with the given [key].
-  const SecondPage({super.key});
+class SecondPage extends StatefulWidget {
+  @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  final TextEditingController _messageController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  bool _formSubmitted = false;
+
+  bool isValidPhoneNumber(String value) {
+    if (value.isEmpty) {
+      return false;
+    }
+    return RegExp(r'^\+\d{10}$').hasMatch(value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Home screen
-      backgroundColor: Colors.black,
-      // App bar widget
       appBar: AppBar(
-        //Widget
         title: Text(
-          // Setting the app bar title
           'Messages',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
           ),
         ),
-        //Setting the background color of the app bar
-        backgroundColor: Colors.black45,
+        backgroundColor: Colors.black,
       ),
-      //Adding a custom scroll view
-      body: CustomScrollView(
-        slivers: [
-          //Adding a sliver to the custom scroll view
-          SliverToBoxAdapter(
-            //Stories widget
-            child: Stories(),
-          ),
-          SliverList(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              return Text('users ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                    fontSize: 15,
-                  ));
-            }),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Phone number',
+                    hintText: '+1234567890',
+                    errorText: _formSubmitted && _phoneController.text.isEmpty
+                        ? 'Please enter a phone number'
+                        : _formSubmitted &&
+                                !isValidPhoneNumber(_phoneController.text)
+                            ? 'Please enter a valid phone number'
+                            : null,
+                    errorStyle: TextStyle(color: Colors.red),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _messageController,
+                  decoration: InputDecoration(
+                    labelText: 'Message',
+                    hintText: 'Hello, world!',
+                    errorText: _formSubmitted && _messageController.text.isEmpty
+                        ? 'Please enter a message'
+                        : null,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => send_SMS(
+                      context, _messageController.text, _phoneController.text),
+                  child: const Text('Send Message'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-
-      floatingActionButton: SizedBox(
-        child: Align(
-          alignment: Alignment(0.1, 1),
-          child: FittedBox(
-            child: FloatingActionButton.extended(
-                label: Text(
-                  "Next Page",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                backgroundColor: Colors.green,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChatPage()),
-                  );
-                }),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A widget that displays a list of stories.
-class Stories extends StatelessWidget {
-  const Stories({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-//Stories
-      elevation: 0,
-      color: Colors.grey[800],
-      child: SizedBox(
-        height: 134,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Stories',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-                fontSize: 15,
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return Text('users ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        fontSize: 15,
-                      ));
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: Colors.black,
     );
   }
 }
@@ -247,24 +246,6 @@ class ChatPage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Expanded(
-            child: GroupedListView<Message, DateTime>(
-              padding: const EdgeInsets.all(8),
-
-              /// The list of messages to be displayed in the chat.
-              elements: messages,
-
-              /// The grouping method for the messages (in this case, by year).
-              groupBy: (message) => DateTime(2023),
-
-              /// The builder for the group headers (in this case, an empty SizedBox).
-              groupHeaderBuilder: (Message message) => SizedBox(),
-
-              /// The builder for the individual messages (in this case, an empty Container).
-              itemBuilder: (context, Message message) => Container(),
-            ),
-          ),
-
           /// The input field for typing a new message.
           Container(
               color: Colors.grey.shade300,
