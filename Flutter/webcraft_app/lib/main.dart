@@ -202,7 +202,7 @@ class _SecondPageState extends State<SecondPage> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => errorChecker(
+                      onPressed: () => errorChecker(
                       context, _messageController.text, _phoneController.text),
                   child: const Text('Send Message'),
                 ),
@@ -346,4 +346,12 @@ class ChatPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void _sendSMS(String message, List<String> recipents) async {
+  String _result = await sendSMS(message: message, recipients: recipents)
+  .catchError((onError) {
+    print(onError);
+  });
+  print(_result);
 }
