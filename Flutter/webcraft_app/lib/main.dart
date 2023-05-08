@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 final String baseUrl = 'http://127.0.0.1:5000';
 
@@ -135,6 +136,17 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+final TextEditingController _messageController = TextEditingController();
+final TextEditingController _phoneController = TextEditingController();
+bool _formSubmitted = false;
+
+bool isValidPhoneNumber(String value) {
+  if (value.isEmpty) {
+    return false;
+  }
+  return RegExp(r'^\+\d{11}$').hasMatch(value);
+}
+
 /// A second page widget that displays a list of users and a floating action button that navigates to the chat page.
 class SecondPage extends StatefulWidget {
   @override
@@ -142,17 +154,6 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  bool _formSubmitted = false;
-
-  bool isValidPhoneNumber(String value) {
-    if (value.isEmpty) {
-      return false;
-    }
-    return RegExp(r'^\+\d{10}$').hasMatch(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,7 +202,7 @@ class _SecondPageState extends State<SecondPage> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => send_SMS(
+                  onPressed: () => errorChecker(
                       context, _messageController.text, _phoneController.text),
                   child: const Text('Send Message'),
                 ),
@@ -213,49 +214,135 @@ class _SecondPageState extends State<SecondPage> {
       backgroundColor: Colors.black,
     );
   }
-}
 
-/// A message class that stores the text, date, and whether the message was sent by the user or not.
-class Message {
-  final String text;
-  final DateTime date;
-  final bool isSentbyMe;
-
-  const Message({
-    required this.text,
-    required this.date,
-    required this.isSentbyMe,
-  });
+  Future<void> errorChecker(
+      BuildContext context, String message, String phoneNumber) async {
+    if (phoneNumber.isEmpty) {
+      setState(() {
+        _formSubmitted = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a phone number'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (!isValidPhoneNumber(phoneNumber)) {
+      setState(() {
+        _formSubmitted = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a valid phone number'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (message.isEmpty) {
+      setState(() {
+        _formSubmitted = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a message'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('SMS sent successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      List<String> conversation = await _sendSMS(message, [phoneNumber]);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChatPage(conversation: conversation)),
+      );
+    }
+  }
 }
 
 /// A page that displays a chat interface.
+Future<List<String>> _sendSMS(String message, List<String> recipients) async {
+  print("Sending message: $message");
+  print("Recipients: $recipients");
+  String _result = await sendSMS(message: message, recipients: recipients)
+      .catchError((onError) {
+    print(onError);
+  });
+  print("Result: $_result");
+  return recipients.map((recipient) => "$message\n You").toList();
+}
+
 class ChatPage extends StatelessWidget {
-  /// The list of messages in the chat.
-  List<Message> messages = [
-    Message(
-      text: 'Yes sure!',
-      date: DateTime.now().subtract(Duration(minutes: 1)),
-      isSentbyMe: false,
-    ),
-  ].reversed.toList();
+  final List<String> conversation;
+
+  const ChatPage({Key? key, required this.conversation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//Home screen
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+      ),
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          /// The input field for typing a new message.
-          Container(
-              color: Colors.grey.shade300,
-              child: TextField(
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(12),
-                  hintText: 'Type your message here...',
+      body: ListView.builder(
+        itemCount: conversation.length,
+        itemBuilder: (BuildContext context, int index) {
+          String message = conversation[index];
+          List<String> splitMessage = message.split('\n');
+
+          if (splitMessage.length == 2) {
+            // The message contains both sent and received messages
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 16.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Text(
+                    splitMessage[0], // Sent message
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
-              ))
-        ],
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Text(
+                    splitMessage[1], // Received message
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ],
+            );
+          } else {
+            // The message only contains a received message
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 16.0,
+              ),
+              child: Text(
+                message,
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.start,
+              ),
+            );
+          }
+        },
       ),
     );
   }
