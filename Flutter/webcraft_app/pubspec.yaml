@@ -79,80 +79,80 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Wallpoet
-       fonts:
-         - asset: assets/fonts/Wallpoet-Regular.ttf
-#         - asset: fonts/Schyler-Italic.ttf
-           weight: 700
-     - family: MajorMonoDisplay
-       fonts:
-         - asset: assets/fonts/MajorMonoDisplay-Regular.ttf
-#         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+    - family: Wallpoet
+      fonts:
+        - asset: assets/fonts/Wallpoet-Regular.ttf
+          #         - asset: fonts/Schyler-Italic.ttf
+          weight: 700
+    - family: MajorMonoDisplay
+      fonts:
+        - asset: assets/fonts/MajorMonoDisplay-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
-     - family: LondrinaShadow
-       fonts:
-         - asset: assets/fonts/LondrinaShadow-Regular.ttf
-           #         - asset: fonts/Schyler-Italic.ttf
-           weight: 700
+    - family: LondrinaShadow
+      fonts:
+        - asset: assets/fonts/LondrinaShadow-Regular.ttf
+          #         - asset: fonts/Schyler-Italic.ttf
+          weight: 700
 
-     - family: TrainOne
-       fonts:
-         - asset: assets/fonts/TrainOne-Regular.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+    - family: TrainOne
+      fonts:
+        - asset: assets/fonts/TrainOne-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
-     - family: Baumans
-       fonts:
-         - asset: assets/fonts/Baumans-Regular.ttf
-           #         - asset: fonts/Schyler-Italic.ttf
-           weight: 700
+    - family: Baumans
+      fonts:
+        - asset: assets/fonts/Baumans-Regular.ttf
+          #         - asset: fonts/Schyler-Italic.ttf
+          weight: 700
 
-     - family: Italiana
-       fonts:
-         - asset: assets/fonts/Italiana-Regular.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+    - family: Italiana
+      fonts:
+        - asset: assets/fonts/Italiana-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
-     - family: AlbertSans
-       fonts:
-         - asset: assets/fonts/AlbertSans-ExtraLight.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
-
-
-     - family: PoiretOne
-       fonts:
-         - asset: assets/fonts/PoiretOne-Regular.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
-
-     - family: Monoton
-       fonts:
-         - asset: assets/fonts/Monoton-Regular.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
-
-     - family: BungeeHairline
-       fonts:
-         - asset: assets/fonts/BungeeHairline-Regular.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+    - family: AlbertSans
+      fonts:
+        - asset: assets/fonts/AlbertSans-ExtraLight.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
 
+    - family: PoiretOne
+      fonts:
+        - asset: assets/fonts/PoiretOne-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
-     - family: West End Knights
-       fonts:
-         - asset: assets/fonts/West End Knights.otf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+    - family: Monoton
+      fonts:
+        - asset: assets/fonts/Monoton-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
+
+    - family: BungeeHairline
+      fonts:
+        - asset: assets/fonts/BungeeHairline-Regular.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
 
 
-     - family: Bitter-VariableFont_wght
-       fonts:
-         - asset: assets/fonts/Bitter-VariableFont_wght.ttf
-           #         - asset: fonts/TrajanPro_Bold.ttf
-           weight: 700
+
+    - family: West End Knights
+      fonts:
+        - asset: assets/fonts/West End Knights.otf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
+
+
+    - family: Bitter-VariableFont_wght
+      fonts:
+        - asset: assets/fonts/Bitter-VariableFont_wght.ttf
+          #         - asset: fonts/TrajanPro_Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
