@@ -33,8 +33,8 @@ from compiler import Compiler
 app = Flask(__name__)
 
 compiler = Compiler()
-client = Client("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN")  # Replace with your Twilio account SID and auth token
-twilio_phone_number = "TWILIO_PHONE_NUMBER"  # Replace with your Twilio phone number in E.164 format
+client = Client("**", "**")  # Replace with your Twilio account SID and auth token
+twilio_phone_number = "+**"  # Replace with your Twilio phone number in E.164 format
 
 @app.route('/')
 @app.route('/home')
@@ -69,6 +69,8 @@ def sms():
     Receives an SMS message, compiles the code, and sends the output back to the same phone number.
     """
     incoming_message = request.form['Body']
+    #print(incoming_message)
+    
     compiler.set_code(incoming_message)
     compiler.compile()
     output = compiler.get_output()
