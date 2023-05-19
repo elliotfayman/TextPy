@@ -19,9 +19,21 @@ To provide a user-friendly interface, the Flutter frontend, developed using Dart
 In the GitHub repository, the project's structure is organized into separate directories for the Flask backend and Flutter frontend. The Flask backend directory contains modules responsible for API functionality, code compilation, and interaction with Twilio. The API module handles routing and endpoint configuration, allowing users to interact with the TextPy application. The code compilation module includes functions that utilize the subprocess library to execute Python code securely. Additionally, the Twilio integration module handles sending and receiving SMS messages, establishing seamless communication with users.
 
 On the Flutter frontend side, the directory structure follows standard Flutter conventions. It includes files such as main.dart, which acts as the entry point for the application. The frontend utilizes Flutter widgets to build an intuitive user interface, consisting of screens for composing and sending SMS messages, as well as displaying received code interpretation results.
+<br>
+
+---
+
 
 ## Design Model
-
+<br>
 <p align="center">
-  <img src="DesignModel.png" width="500">
+  <img src="DesignModel.png" width="900">
 </p>
+
+<br>
+
+---
+
+## Authors
+
+Elliot Fayman, Christina Mourad, and Ryan Kao.
